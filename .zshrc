@@ -3,32 +3,8 @@ export ZSH=/Users/ben/.oh-my-zsh
 export EDITOR="sublime -w"
 
 export VAGRANT_DEFAULT_PROVIDER=virtualbox
-alias zshreload="source ~/.zshrc"
 
-# Set name of the theme to load.
-# Look in ~/.oh-my-zsh/themes/
-# Optionally, if you set this to "random", it'll load a random theme each
-# time that oh-my-zsh is loaded.
 ZSH_THEME="robbyrussell"
-
-# Uncomment the following line to use case-sensitive completion.
-# CASE_SENSITIVE="true"
-
-# Uncomment the following line to use hyphen-insensitive completion. Case
-# sensitive completion must be off. _ and - will be interchangeable.
-# HYPHEN_INSENSITIVE="true"
-
-# Uncomment the following line to disable bi-weekly auto-update checks.
-# DISABLE_AUTO_UPDATE="true"
-
-# Uncomment the following line to change how often to auto-update (in days).
-# export UPDATE_ZSH_DAYS=13
-
-# Uncomment the following line to disable colors in ls.
-# DISABLE_LS_COLORS="true"
-
-# Uncomment the following line to disable auto-setting terminal title.
-# DISABLE_AUTO_TITLE="true"
 
 # Uncomment the following line to enable command auto-correction.
 # ENABLE_CORRECTION="true"
@@ -41,14 +17,6 @@ ZSH_THEME="robbyrussell"
 # much, much faster.
 # DISABLE_UNTRACKED_FILES_DIRTY="true"
 
-# Uncomment the following line if you want to change the command execution time
-# stamp shown in the history command output.
-# The optional three formats: "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
-# HIST_STAMPS="mm/dd/yyyy"
-
-# Would you like to use another custom folder than $ZSH/custom?
-# ZSH_CUSTOM=/path/to/new-custom-folder
-
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
@@ -57,23 +25,14 @@ plugins=(git wd)
 
 # User configuration
 
+# Set Paths
+# ------------------------------------------------------------
 export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:~/.composer/vendor/bin:/opt/X11/bin:/Users/ben/bin"
-# export MANPATH="/usr/local/man:$MANPATH"
 
 source $ZSH/oh-my-zsh.sh
 
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
-
-# Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
-
-# Compilation flags
-# export ARCHFLAGS="-arch x86_64"
 
 # ssh
 # export SSH_KEY_PATH="~/.ssh/dsa_id"
@@ -82,83 +41,26 @@ source $ZSH/oh-my-zsh.sh
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
 # users are encouraged to define aliases within the ZSH_CUSTOM folder.
 # For a full list of active aliases, run `alias`.
-#
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
-
-# vm() {
-# 	if (( $# == 0 )) then
-# 		docker exec -it php-nginx bash -c "export TERM=$TERM && bash";
-# 	else
-# 		if [[ $1 == 'start' ]] then
-# 			if (( $# == 2 )) then
-# 				docker-machine start $2
-# 				eval $(docker-machine env $2)
-# 			else
-# 				docker-machine start
-# 				eval $(docker-machine env)
-# 			fi
-# 		else
-# 			docker exec -it php-nginx php artisan $@;
-# 		fi
-# 	fi
-# }
-
-alias ffs="chmod 777 storage/logs/* && chmod 777 storage/framework/views/*"
-export N_PREFIX="$HOME/n"; [[ :$PATH: == *":$N_PREFIX/bin:"* ]] || PATH+=":$N_PREFIX/bin"  # Added by n-install (see http://git.io/n-install-repo).
-
 
 alias gs="git sync"
 alias ns="npm start"
 alias nb="npm build"
 
-
-vm() {
-    passthru=(behat)
-    if (( $# == 0 )) then
-        docker-compose exec workspace bash -c "export TERM=$TERM && bash";
-    else
-        if [[ $1 == 'start' ]] then
-            docker-machine start || echo "Already started Machine"
-            eval $(docker-machine env)
-            docker-compose up -d
-        elif [[ $1 == 'phpunit' ]] then
-           docker-compose exec workspace php -dzend_extension=xdebug.so /var/www/laravel/vendor/bin/phpunit
-        elif [[ ${passthru[(r)$1]} == $1 ]] then
-            docker-compose exec workspace bash -c export PATH=$$PATH=$$PATH:/var/www/laravel/vendor/bin && $1
-        else
-            docker-compose exec workspace php artisan $@;
-        fi
-    fi
-}
-
-
-#   -------------------------------
-#   COMMONLY USED APPS
-#   -------------------------------
+# Common apps
 alias chrome="open -a 'Google Chrome'"
 
-
-#open things
+# Open things
 alias showindex="chrome index.html"
 alias reddit="chrome https://www.reddit.com/top/"
 alias gopro="cd ~/Desktop/Projects || ls -a"
+
+# Open configs / reloads
 alias config="sublime ~/.zshrc"
+alias zshreload="source ~/.zshrc"
 
-
-
-#   -------------------------------
-#   1. ENVIRONMENT CONFIGURATION
-#   -------------------------------
-
-#   Set Paths
-#   ------------------------------------------------------------
-    #export PATH="$PATH:/usr/local/bin/"
-    #export PATH="/usr/local/git/bin:/sw/bin/:/usr/local/bin:/usr/local/:/usr/local/sbin:/usr/local/mysql/bin:$PATH"
 
 #   -----------------------------
-#   2. MAKE TERMINAL BETTER
+#   MAKE TERMINAL BETTER
 #   -----------------------------
 
 alias cp='cp -iv'                           # Preferred 'cp' implementation
@@ -190,27 +92,24 @@ ql () { qlmanage -p "$*" >& /dev/null; }    # ql:           Opens any file in Ma
 alias DT='tee ~/Desktop/terminalOut.txt'    # DT:           Pipe content to file on MacOS Desktop
 
 
-#   showa: to remind yourself of an alias (given some part of it)
-#   ------------------------------------------------------------
-    showa () { /usr/bin/grep --color=always -i -a1 $@ ~/Library/init/bash/aliases.bash | grep -v '^\s*$' | less -FSRXc ; }
+# showa: to remind yourself of an alias (given some part of it)
+# ------------------------------------------------------------
+showa () { /usr/bin/grep --color=always -i -a1 $@ ~/Library/init/bash/aliases.bash | grep -v '^\s*$' | less -FSRXc ; }
 
-#   cdf:  'Cd's to frontmost window of MacOS Finder
-#   ------------------------------------------------------
-    cdf () {
-        currFolderPath=$( /usr/bin/osascript <<EOT
-            tell application "Finder"
-                try
-            set currFolder to (folder of the front window as alias)
-                on error
-            set currFolder to (path to desktop folder as alias)
-                end try
-                POSIX path of currFolder
-            end tell
+# cdf:  'Cd's to frontmost window of MacOS Finder
+# ------------------------------------------------------
+cdf () {
+    currFolderPath=$( /usr/bin/osascript <<EOT
+        tell application "Finder"
+            try
+        set currFolder to (folder of the front window as alias)
+            on error
+        set currFolder to (path to desktop folder as alias)
+            end try
+            POSIX path of currFolder
+        end tell
 EOT
-        )
-        echo "cd to \"$currFolderPath\""
-        cd "$currFolderPath"
-    }
-
-
-
+    )
+    echo "cd to \"$currFolderPath\""
+    cd "$currFolderPath"
+}
