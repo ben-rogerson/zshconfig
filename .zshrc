@@ -1,62 +1,57 @@
-# Path to your oh-my-zsh installation.
+#   -------------------------------
+#   BENS ZSH CONFIG!
+#   -------------------------------
 export ZSH=/Users/ben/.oh-my-zsh
-export EDITOR="sublime -w"
-
+export EDITOR="code -w"
 export VAGRANT_DEFAULT_PROVIDER=virtualbox
-
-ZSH_THEME="robbyrussell"
-
-# Uncomment the following line to enable command auto-correction.
-# ENABLE_CORRECTION="true"
-
-# Uncomment the following line to display red dots whilst waiting for completion.
-# COMPLETION_WAITING_DOTS="true"
-
-# Uncomment the following line if you want to disable marking untracked files
-# under VCS as dirty. This makes repository status check for large repositories
-# much, much faster.
-# DISABLE_UNTRACKED_FILES_DIRTY="true"
-
-# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
-# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-# Add wisely, as too many plugins slow down shell startup.
-plugins=(git wd)
-
-# User configuration
-
-# Set Paths
-# ------------------------------------------------------------
-export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:~/.composer/vendor/bin:/opt/X11/bin:/Users/ben/bin"
+ZSH_THEME="robbyrussell" # ~/.oh-my-zsh/themes/
+plugins=(git wd) # ~/.oh-my-zsh/plugins/
 
 source $ZSH/oh-my-zsh.sh
+source $HOME/.bash_profile
 
-# You may need to manually set your language environment
-# export LANG=en_US.UTF-8
+#   -------------------------------
+#   ENVIRONMENT CONFIGURATION
+#   -------------------------------
+export PATH="/bin"
+export PATH="$PATH:/usr/local/sbin"
+export PATH="$PATH:/usr/local/lib/node_modules"
+export PATH="$PATH:/sbin:"
+export PATH="$PATH:/usr/bin"
+export PATH="$PATH:/usr/sbin"
+export PATH="$PATH:~/.composer/vendor/bin"
+export PATH="$PATH:/opt/X11/bin"
+export PATH="$PATH:/Users/ben/bin"
+export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
+export PATH="/usr/local/bin:$PATH"
 
-# ssh
-# export SSH_KEY_PATH="~/.ssh/dsa_id"
-
-# Set personal aliases, overriding those provided by oh-my-zsh libs,
-# plugins, and themes. Aliases can be placed here, though oh-my-zsh
-# users are encouraged to define aliases within the ZSH_CUSTOM folder.
-# For a full list of active aliases, run `alias`.
-
+#   -------------------------------
+#   WEB DEVELOPMENT
+#   -------------------------------
 alias gs="git sync"
 alias ns="npm start"
 alias nb="npm build"
+alias nyu="npm update && yarn upgrade"
+alias fetchy="git fetch && git pull"
+alias composer="/usr/local/bin/composer"
 
-# Common apps
-alias chrome="open -a 'Google Chrome'"
 
-# Open things
-alias showindex="chrome index.html"
+#   -------------------------------
+#   COMMONLY USED APPS
+#   -------------------------------
+alias .="code ."
 alias reddit="chrome https://www.reddit.com/top/"
-alias gopro="cd ~/Desktop/Projects || ls -a"
+alias config="code ~/.zshrc"
+alias sshedit='. ~/.ssh/config'
+alias reload="source ~/.zshrc"
 
-# Open configs / reloads
-alias config="sublime ~/.zshrc"
-alias zshreload="source ~/.zshrc"
+
+#   -------------------------------
+#   PROJECT FOLDER SHORTCUTS
+#   -------------------------------
+alias gopro="cd ~/Projects || ls -a"
+alias p="cd ~/Projects || ls -a"
+alias goframe="cd ~/Projects/Frame || ls -a"
 
 
 #   -----------------------------
@@ -72,16 +67,10 @@ cd() { builtin cd "$@"; ll; }               # Always list directory contents upo
 alias cd..='cd ../'                         # Go back 1 directory level (for fast typers)
 alias ..='cd ../'                           # Go back 1 directory level
 alias ...='cd ../../'                       # Go back 2 directory levels
-alias .3='cd ../../../'                     # Go back 3 directory levels
-alias .4='cd ../../../../'                  # Go back 4 directory levels
-alias .5='cd ../../../../../'               # Go back 5 directory levels
-alias .6='cd ../../../../../../'            # Go back 6 directory levels
-alias edit='sublime'                        # edit:         Opens any file in sublime editor
-alias sudoedit= 'sudo sublime'
+alias edit='code'                           # edit:         Opens any file in vscode editor
 alias f='open -a Finder ./'                 # f:            Opens current directory in MacOS Finder
 alias ~="cd ~"                              # ~:            Go Home
 alias c='clear'                             # c:            Clear terminal display
-alias which='type -all'                     # which:        Find executables
 alias path='echo -e ${PATH//:/\\n}'         # path:         Echo all executable Paths
 alias show_options='shopt'                  # Show_options: display bash options settings
 alias fix_stty='stty sane'                  # fix_stty:     Restore terminal settings when screwed up
@@ -92,12 +81,8 @@ ql () { qlmanage -p "$*" >& /dev/null; }    # ql:           Opens any file in Ma
 alias DT='tee ~/Desktop/terminalOut.txt'    # DT:           Pipe content to file on MacOS Desktop
 
 
-# showa: to remind yourself of an alias (given some part of it)
-# ------------------------------------------------------------
-showa () { /usr/bin/grep --color=always -i -a1 $@ ~/Library/init/bash/aliases.bash | grep -v '^\s*$' | less -FSRXc ; }
-
-# cdf:  'Cd's to frontmost window of MacOS Finder
-# ------------------------------------------------------
+#   cdf:  'Cd's to frontmost window of MacOS Finder
+#   ------------------------------------------------------
 cdf () {
     currFolderPath=$( /usr/bin/osascript <<EOT
         tell application "Finder"
@@ -113,3 +98,11 @@ EOT
     echo "cd to \"$currFolderPath\""
     cd "$currFolderPath"
 }
+
+# Homestead reprovisioning
+
+function homestead() {
+    ( cd ~/Homestead && vagrant $* )
+}
+
+alias reprovision='homestead halt && homestead up --provision'
