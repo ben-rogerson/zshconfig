@@ -1,5 +1,5 @@
 #   -------------------------------
-#   BENS ZSH CONFIG!
+#   BENS 2018 ZSH CONFIG
 #   -------------------------------
 
 # Path to your oh-my-zsh installation
