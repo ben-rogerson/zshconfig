@@ -70,12 +70,27 @@ export PATH="$PATH:$HOME/.composer/vendor/bin"
 #   -------------------------------
 #   WEB DEVELOPMENT
 #   -------------------------------
-alias gs="git sync"
+
+# Git aliases
+alias gs="git status"
+alias gp="git fetch && git pull"
+
+# NPM aliases
 alias ns="npm start"
-alias nb="npm build"
-alias nyu="npm update && yarn upgrade"
-alias fetchy="git fetch && git pull"
+alias nb="npm run build"
+alias nu="npm update"
+alias ni="npm install"
+
+# SSH Helpers
+alias keyup="ssh-copy-id -i ~/.ssh/id_rsa $@"
+# Copy key to clipboard
+alias keycopy="cat ~/.ssh/id_rsa.pub | pbcopy"
+alias key='keycopy'
+
 alias composer="/usr/local/bin/composer"
+
+# Call composer if vendor is typed
+vendor() { composer "$1"; }
 
 
 #   -------------------------------
@@ -91,9 +106,7 @@ alias reload="source ~/.zshrc"
 #   -------------------------------
 #   PROJECT FOLDER SHORTCUTS
 #   -------------------------------
-alias gopro="cd ~/Projects || ls -a"
 alias p="cd ~/Projects || ls -a"
-alias goframe="cd ~/Projects/Frame || ls -a"
 
 
 #   -----------------------------
