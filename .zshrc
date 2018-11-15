@@ -1,6 +1,11 @@
-#   -------------------------------
-#   BENS 2018 ZSH CONFIG
-#   -------------------------------
+#-------------------------------
+#BENS 2018 ZSH CONFIG
+#-------------------------------
+
+
+#-------------------------------
+#ENVIRONMENT CONFIGURATION
+#-------------------------------
 
 # Path to your oh-my-zsh installation
 export ZSH=/Users/rogie/.oh-my-zsh
@@ -20,60 +25,72 @@ source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 DEFAULT_USER="rogie"
 
-
-#   -------------------------------
-#   ENVIRONMENT CONFIGURATION
-#   -------------------------------
 export PATH="/usr/local/bin:$PATH"
 export PATH="$PATH:$HOME/.composer/vendor/bin"
 
+#-------------------------------
+#WEB DEVELOPMENT
+#-------------------------------
 
-#   -------------------------------
-#   WEB DEVELOPMENT
-#   -------------------------------
+# Folders
+alias p="cd ~/Projects || ls -a"
 
-# Git aliases
-alias gs="git status"
-alias gp="git fetch && git pull"
+# Apps
+alias .="code ." # Vscode
+alias sourcetree="open -a SourceTree ."
+alias st="sourcetree"
 
-# NPM aliases
+# NPM scripts
 alias ns="npm start"
 alias nb="npm run build"
+alias nd="npm run dev"
 alias nu="npm update"
+alias nd="npm run dev"
 alias ni="npm install"
+alias nr="npm remove"
 
-# SSH Helpers
-alias keyup="ssh-copy-id -i ~/.ssh/id_rsa $@"
-# Copy key to clipboard
-alias keycopy="cat ~/.ssh/id_rsa.pub | pbcopy"
-alias key='keycopy'
-
+# Misc commands
+alias fetchy="git fetch && git pull"
 alias composer="/usr/local/bin/composer"
+
+# Safetytrash
+alias rmnode="trash node_modules"
+alias rmvendor="trash vendor"
+
+# SSH
+alias sshcopy="pbcopy < ~/.ssh/id_rsa.pub && echo Copied id_rsa.pub"
+alias sshedit=". ~/.ssh/config"
+
+# Tasks
+alias st="code . && npm start && open -a SourceTree ."
 
 # Call composer if vendor is typed
 vendor() { composer "$1"; }
 
+# Create a new project
+function newpro {
+    cd /Users/rogie/Projects
+    mcd "$1"
+    npm init -y
+    echo "# Project" >> README.md
+    git init
+    echo "node_modules/" >> .gitignore
+    code .
+    echo 🔥🔥🔥 New Project created 🔥🔥🔥
+}
 
-#   -------------------------------
-#   COMMONLY USED APPS
-#   -------------------------------
+#-------------------------------
+#COMMONLY USED APPS
+#-------------------------------
 alias .="code ."
 alias reddit="chrome https://www.reddit.com/top/"
 alias config="code ~/.zshrc"
 alias sshedit='. ~/.ssh/config'
 alias reload="source ~/.zshrc"
 
-
-#   -------------------------------
-#   PROJECT FOLDER SHORTCUTS
-#   -------------------------------
-alias p="cd ~/Projects || ls -a"
-
-
-#   -----------------------------
-#   MAKE TERMINAL BETTER
-#   -----------------------------
-
+#-----------------------------
+#MAKE TERMINAL MORE BETTERER
+#-----------------------------
 alias cp='cp -iv'                           # Preferred 'cp' implementation
 alias mv='mv -iv'                           # Preferred 'mv' implementation
 alias mkdir='mkdir -pv'                     # Preferred 'mkdir' implementation
@@ -95,7 +112,6 @@ mcd () { mkdir -p "$1" && cd "$1"; }        # mcd:          Makes new Dir and ju
 trash () { command mv "$@" ~/.Trash ; }     # trash:        Moves a file to the MacOS trash
 ql () { qlmanage -p "$*" >& /dev/null; }    # ql:           Opens any file in MacOS Quicklook Preview
 alias DT='tee ~/Desktop/terminalOut.txt'    # DT:           Pipe content to file on MacOS Desktop
-
 
 #   cdf:  'Cd's to frontmost window of MacOS Finder
 #   ------------------------------------------------------
