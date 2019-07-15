@@ -1,5 +1,5 @@
 #-------------------------------
-#BENS 2018 ZSH CONFIG
+#BENS 2019 ZSH CONFIG
 #-------------------------------
 
 
@@ -27,6 +27,8 @@ DEFAULT_USER="rogie"
 
 export PATH="/usr/local/bin:$PATH"
 export PATH="$PATH:$HOME/.composer/vendor/bin"
+export PATH="$PATH:/usr/local/lib/node_modules"
+export PATH="$PATH:$HOME/bin"
 
 #-------------------------------
 #WEB DEVELOPMENT
@@ -59,10 +61,14 @@ alias rmvendor="trash vendor"
 
 # SSH
 alias sshcopy="pbcopy < ~/.ssh/id_rsa.pub && echo Copied id_rsa.pub"
+alias keycopy="sshcopy"
+alias copykey="sshcopy"
+alias key="sshcopy"
 alias sshedit=". ~/.ssh/config"
+alias sshconfig="sshedit"
 
 # Tasks
-alias st="code . && npm start && open -a SourceTree ."
+alias sta="open -a SourceTree . && code . && npm start"
 
 # Call composer if vendor is typed
 vendor() { composer "$1"; }
@@ -79,14 +85,36 @@ function newpro {
     echo 🔥🔥🔥 New Project created 🔥🔥🔥
 }
 
+# Add composer-link command for local development
+# https://johannespichler.com/add-composer-link-command/
+function composer-link {
+  composer config repositories '{"type": "path", "url": "'$1'", "options": {"symlink": true}}' --file composer.json
+  composer require $2 @dev
+}
+
+# Disable CORS in Chrome
+alias cors="open /Applications/Google\ Chrome.app --args --user-data-dir=\"/var/tmp/Chrome dev session\" --disable-web-security"
+
 #-------------------------------
-#COMMONLY USED APPS
+#CRAFT SHORTCUTS
+#-------------------------------
+alias craft-install='composer install' # Installs dependencies from the composer.lock
+alias craft-update='./craft update all' # Installs dependencies based on the current composer.json & composer.lock
+alias craft-updates='./craft update/info' # Displays info about available updates
+alias craft-clear='./craft clear-caches/all' # Clear all caches
+alias craft-flush='./craft cache/flush-all' # Flushes given cache components.
+
+#-------------------------------
+#COMMONLY USED APPS / CONFIGS
 #-------------------------------
 alias .="code ."
 alias reddit="chrome https://www.reddit.com/top/"
 alias config="code ~/.zshrc"
 alias sshedit='. ~/.ssh/config'
 alias reload="source ~/.zshrc"
+alias refresh="reload"
+alias sshedit='cd ~/.ssh/ || ll && . ~/.ssh/config'
+alias phpedit='cd /usr/local/etc/php || ll'
 
 #-----------------------------
 #MAKE TERMINAL MORE BETTERER
