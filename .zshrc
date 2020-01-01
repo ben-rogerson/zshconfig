@@ -1,3 +1,5 @@
+# shellcheck shell=sh
+
 #-------------------------------
 #BENS 2020 ZSH CONFIG
 #-------------------------------
@@ -6,7 +8,7 @@ PROJECT_FOLDER="Projects"
 
 # Enable Powerlevel10k instant prompt
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+  \. "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
 #-------------------------------
@@ -16,18 +18,15 @@ fi
 # Path to your oh-my-zsh installation
 export EDITOR="code -w"
 
-# Set name of the theme to load. Optionally, if you set this to "random"
-# it'll load a random theme each time that oh-my-zsh is loaded.
-# See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
+# source $HOME/powerlevel10k/powerlevel10k.zsh-theme
+
 ZSH_THEME="powerlevel10k/powerlevel10k"  # ~/.oh-my-zsh/themes/
 
-source $HOME/.oh-my-zsh/oh-my-zsh.sh
-source $HOME/.bash_profile
+export ZSH=$HOME/.oh-my-zsh
+\. "$ZSH/oh-my-zsh.sh"
+\. "$HOME/.bash_profile"
 
 plugins=(alias-tips chucknorris colorize common-aliases dirhistory extract git osx node npm vagrant github pip python wd web-search z zsh-autosuggestions zsh-syntax-highlighting) # ~/.oh-my-zsh/plugins/
-
-
-
 
 export PATH="/usr/local/bin:$PATH"
 export PATH="$PATH:$HOME/.composer/vendor/bin"
@@ -78,7 +77,7 @@ alias sta="open -a SourceTree . && code . && npm start"
 vendor() { composer "$1"; }
 
 # Create a new project
-function newpro {
+newpro() {
     cd "$HOME/$PROJECT_FOLDER"
     mcd "$1"
     npm init -y
@@ -91,9 +90,9 @@ function newpro {
 
 # Add composer-link command for local development
 # https://johannespichler.com/add-composer-link-command/
-function composer-link {
-  composer config repositories '{"type": "path", "url": "'$1'", "options": {"symlink": true}}' --file composer.json
-  composer require $2 @dev
+composerlink() {
+  composer config repositories '{"type": "path", "url": "'"$1"'", "options": {"symlink": true}}' --file composer.json
+  composer require "$2" @dev
 }
 
 # Disable CORS in Chrome
@@ -128,7 +127,7 @@ alias mv='mv -iv'                           # Preferred 'mv' implementation
 alias mkdir='mkdir -pv'                     # Preferred 'mkdir' implementation
 alias ll='ls -FGlAhp'                       # Preferred 'ls' implementation
 alias less='less -FSRXc'                    # Preferred 'less' implementation
-cd() { builtin cd "$@"; ll; }               # Always list directory contents upon 'cd'
+cd() { builtin cd "$@" || return; ll; }               # Always list directory contents upon 'cd'
 alias cd..='cd ../'                         # Go back 1 directory level (for fast typers)
 alias ..='cd ../'                           # Go back 1 directory level
 alias ...='cd ../../'                       # Go back 2 directory levels
@@ -140,7 +139,7 @@ alias path='echo -e ${PATH//:/\\n}'         # path:         Echo all executable 
 alias show_options='shopt'                  # Show_options: display bash options settings
 alias fix_stty='stty sane'                  # fix_stty:     Restore terminal settings when screwed up
 alias cic='set completion-ignore-case On'   # cic:          Make tab-completion case-insensitive
-mcd () { mkdir -p "$1" && cd "$1"; }        # mcd:          Makes new Dir and jumps inside
+mcd () { mkdir -p "$1" && cd "$1" || return; }        # mcd:          Makes new Dir and jumps inside
 trash () { command mv "$@" ~/.Trash ; }     # trash:        Moves a file to the MacOS trash
 ql () { qlmanage -p "$*" >& /dev/null; }    # ql:           Opens any file in MacOS Quicklook Preview
 alias DT='tee ~/Desktop/terminalOut.txt'    # DT:           Pipe content to file on MacOS Desktop
@@ -160,7 +159,7 @@ cdf () {
 EOT
     )
     echo "cd to \"$currFolderPath\""
-    cd "$currFolderPath"
+    cd "$currFolderPath" || exit
 }
 
 # Powerlevel10k

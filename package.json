@@ -1,0 +1,22 @@
+{
+  "name": "zshconfig",
+  "version": "1.0.0",
+  "description": "https://github.com/robbyrussell/oh-my-zsh",
+  "main": "index.js",
+  "scripts": {
+    "check": "npx shellcheck .zshrc",
+    "replace": "cp -i .zshrc $HOME",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ben-rogerson/zshconfig.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ben-rogerson/zshconfig/issues"
+  },
+  "homepage": "https://github.com/ben-rogerson/zshconfig#readme"
+}
