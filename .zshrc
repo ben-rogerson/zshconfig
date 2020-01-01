@@ -2,6 +2,8 @@
 #BENS 2020 ZSH CONFIG
 #-------------------------------
 
+PROJECT_FOLDER="Projects"
+
 # Enable Powerlevel10k instant prompt
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
@@ -12,7 +14,6 @@ fi
 #-------------------------------
 
 # Path to your oh-my-zsh installation
-export ZSH=/Users/ben/.oh-my-zsh
 export EDITOR="code -w"
 
 # Set name of the theme to load. Optionally, if you set this to "random"
@@ -20,12 +21,13 @@ export EDITOR="code -w"
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
 ZSH_THEME="powerlevel10k/powerlevel10k"  # ~/.oh-my-zsh/themes/
 
-source $ZSH/oh-my-zsh.sh
+source $HOME/.oh-my-zsh/oh-my-zsh.sh
 source $HOME/.bash_profile
 
 plugins=(alias-tips chucknorris colorize common-aliases dirhistory extract git osx node npm vagrant github pip python wd web-search z zsh-autosuggestions zsh-syntax-highlighting) # ~/.oh-my-zsh/plugins/
 
-DEFAULT_USER="ben"
+
+
 
 export PATH="/usr/local/bin:$PATH"
 export PATH="$PATH:$HOME/.composer/vendor/bin"
@@ -37,7 +39,7 @@ export PATH="$PATH:$HOME/bin"
 #-------------------------------
 
 # Folders
-alias p="cd ~/Projects || ls -a"
+alias p="cd ~/$PROJECT_FOLDER || ll"
 
 # Apps
 alias .="code ." # Vscode
@@ -77,7 +79,7 @@ vendor() { composer "$1"; }
 
 # Create a new project
 function newpro {
-    cd /Users/ben/Projects
+    cd "$HOME/$PROJECT_FOLDER"
     mcd "$1"
     npm init -y
     echo "# Project" >> README.md
