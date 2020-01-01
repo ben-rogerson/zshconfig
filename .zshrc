@@ -1,29 +1,31 @@
 #-------------------------------
-#BENS 2019 ZSH CONFIG
+#BENS 2020 ZSH CONFIG
 #-------------------------------
 
+# Enable Powerlevel10k instant prompt
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
 
 #-------------------------------
 #ENVIRONMENT CONFIGURATION
 #-------------------------------
 
 # Path to your oh-my-zsh installation
-export ZSH=/Users/rogie/.oh-my-zsh
+export ZSH=/Users/ben/.oh-my-zsh
 export EDITOR="code -w"
 
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-ZSH_THEME="powerlevel9k/powerlevel9k"  # ~/.oh-my-zsh/themes/
-
-plugins=(alias-tips chucknorris colored-man colorize common-aliases dirhistory extract git osx node npm tiny-care-terminal vagrant github pip python wd web-search z zsh-autosuggestions zsh-syntax-highlighting) # ~/.oh-my-zsh/plugins/
+ZSH_THEME="powerlevel10k/powerlevel10k"  # ~/.oh-my-zsh/themes/
 
 source $ZSH/oh-my-zsh.sh
 source $HOME/.bash_profile
-source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 
-DEFAULT_USER="rogie"
+plugins=(alias-tips chucknorris colorize common-aliases dirhistory extract git osx node npm vagrant github pip python wd web-search z zsh-autosuggestions zsh-syntax-highlighting) # ~/.oh-my-zsh/plugins/
+
+DEFAULT_USER="ben"
 
 export PATH="/usr/local/bin:$PATH"
 export PATH="$PATH:$HOME/.composer/vendor/bin"
@@ -75,7 +77,7 @@ vendor() { composer "$1"; }
 
 # Create a new project
 function newpro {
-    cd /Users/rogie/Projects
+    cd /Users/ben/Projects
     mcd "$1"
     npm init -y
     echo "# Project" >> README.md
@@ -158,3 +160,11 @@ EOT
     echo "cd to \"$currFolderPath\""
     cd "$currFolderPath"
 }
+
+# Powerlevel10k
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
